@@ -36,15 +36,15 @@ async function makeRequest(endpoint) {
         
         if (response.ok) {
             console.log(`[${new Date().toLocaleTimeString()}] Success: ${endpoint}`);
-            return true;
+            return response.status;
         } else {
             const errorText = await response.text();
             console.error(`[${new Date().toLocaleTimeString()}] Error: ${endpoint} - ${response.status} ${response.statusText}`, errorText);
-            return false;
+            return response.status;
         }
     } catch (error) {
         console.error(`[${new Date().toLocaleTimeString()}] Fetch error: ${endpoint}`, error.message);
-        return false;
+        return null;
     }
 }
 
@@ -54,15 +54,18 @@ async function cycle(type, cooldownBetweenCycles, interval = 1500) {
 
     while (true) {
         console.log(`[${type.toUpperCase()}] Starting cycle...`);
-        const startSuccess = await makeRequest(startEndpoint);
+        const startStatus = await makeRequest(startEndpoint);
         
         // Wait specified interval between start and complete
         await sleep(interval);
 
-        if (startSuccess) {
+        if (startStatus >= 200 && startStatus < 300) {
+            await makeRequest(completeEndpoint);
+        } else if (startStatus === 400) {
+            console.log(`[${type.toUpperCase()}] Start returned 400, proceeding to complete...`);
             await makeRequest(completeEndpoint);
         } else {
-            console.log(`[${type.toUpperCase()}] Skipping complete as start failed.`);
+            console.log(`[${type.toUpperCase()}] Skipping complete as start failed with status: ${startStatus}`);
         }
 
         console.log(`[${type.toUpperCase()}] Cycle completed. Waiting for cooldown: ${cooldownBetweenCycles / 1000}s`);
