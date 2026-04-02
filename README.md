@@ -10,7 +10,10 @@ A minimal, high-efficiency automation script for the new Discord game activity.
 
 ## 🛠️ Setup
 
-1. **Clone the repo**
+1. **Clone the repo**:
+   ```bash
+   git clone git@github.com:zeemowo/Last-Meadow-Online-Discord-Bot.git
+   ```
 2. **Install dependencies**:
    ```bash
    npm install
