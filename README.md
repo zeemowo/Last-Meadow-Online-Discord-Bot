@@ -15,14 +15,17 @@ A minimal, high-efficiency automation script for the new Discord game activity.
    ```bash
    npm install
    ```
-3. **Configure your Token**:
-   Create a `.env` file in the root directory and add your Discord token:
+3. **Configure Environment Variables**:
+   Create a `.env` file in the root directory and add your Discord credentials:
    ```env
    TOKEN=your_token_here
+   COOKIES=your_full_cookie_string_here
+   SUPER_PROPERTIES=your_x_super_properties_base64_here
    ```
+   *Note: You can find these by inspecting network requests in your browser while playing the game activity.*
 4. **Run the bot**:
    ```bash
-   npm start
+   node start
    ```
 
 ## ⚠️ Disclaimer

@@ -1,6 +1,9 @@
 require('dotenv').config();
 
 const TOKEN = process.env.TOKEN;
+const COOKIES = process.env.COOKIES;
+const SUPER_PROPERTIES = process.env.SUPER_PROPERTIES;
+
 if (!TOKEN) {
     console.error('Error: TOKEN not found in .env file.');
     process.exit(1);
@@ -16,7 +19,18 @@ async function makeRequest(endpoint) {
             method: 'POST',
             headers: {
                 'Authorization': TOKEN,
-                'Content-Type': 'application/json'
+                'Cookie': COOKIES,
+                'X-Super-Properties': SUPER_PROPERTIES,
+                'Accept': '*/*',
+                'Accept-Language': 'en-US,en;q=0.9',
+                'X-Discord-Locale': 'en-GB',
+                'X-Discord-Timezone': 'Europe/Warsaw',
+                'Origin': 'https://discord.com',
+                'Referer': 'https://discord.com/channels/@me',
+                'Sec-Fetch-Dest': 'empty',
+                'Sec-Fetch-Mode': 'cors',
+                'Sec-Fetch-Site': 'same-origin',
+                'Content-Length': '0'
             }
         });
         
